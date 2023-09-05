@@ -553,7 +553,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 60.000004
+  field of view: 60
   orthographic: 0
   orthographic size: 10
   m_Depth: -1
@@ -972,6 +972,8 @@ MonoBehaviour:
   _controller: {fileID: 466618366}
   _speed: 0.1
   _cameraTransform: {fileID: 1174232551}
+  _cameraSensibility: {x: 0.2, y: 0.2}
+  _vc: {fileID: 1174232552}
 --- !u!1001 &489770720
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1791,7 +1793,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 60.000004
+    FieldOfView: 60
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
