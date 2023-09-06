@@ -2,6 +2,7 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
@@ -18,8 +19,13 @@ public class CharacterMove : MonoBehaviour
 
     [SerializeField] CinemachineVirtualCamera _vc;
 
+    [SerializeField] UnityEvent _onWalkStart;
+    [SerializeField] UnityEvent _onWalkStop;
+
     float _vertical;
     float _horizontal;
+
+    bool _isWalking;
 
     private void Update()
     {
@@ -34,12 +40,12 @@ public class CharacterMove : MonoBehaviour
 
         // On clamp l'axe vertical pour pas faire de looping
         _vertical = Mathf.Clamp(_vertical, -80, 80);
-        
+
         // On applique la rotation droite/gauche à notre objet pour tourner tout le monde
         transform.rotation = Quaternion.Euler(0, _horizontal, 0);
         // On applique la rotation haut/bas uniquement à notre camera pour qu'elle tourne seulesss
         _cameraTransform.localRotation = Quaternion.Euler(_vertical, 0, 0);
-        
+
     }
 
     private void MoveCharacter()
@@ -55,6 +61,24 @@ public class CharacterMove : MonoBehaviour
         direction *= _speed;
 
         direction = _controller.transform.TransformDirection(direction);
+
+        if (direction.magnitude > 0.001f)
+        {
+            if (_isWalking == false)
+            {
+                _onWalkStart.Invoke();
+            }
+            _isWalking = true;
+        }
+        else
+        {
+            if (_isWalking == true)
+            {
+                _onWalkStop.Invoke();
+            }
+            _isWalking = false;
+        }
+
 
         // On envoi au CharacterController
         _controller.Move(direction);
