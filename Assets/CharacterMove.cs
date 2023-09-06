@@ -27,7 +27,6 @@ public class CharacterMove : MonoBehaviour
 
         // Récup la direction Look
         Vector2 look = _look.action.ReadValue<Vector2>();
-        Debug.Log(look);
 
         // On change notre rotation par rapport à Looks
         _horizontal += look.x * _cameraSensibility.x;
