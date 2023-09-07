@@ -1,19 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class CharacterInteraction : MonoBehaviour
+public class CharacterFire : MonoBehaviour
 {
 
     [SerializeField] Camera _cam;
-    [SerializeField] InputActionReference _interaction;
-
-
-    private void Awake()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-    }
+    [SerializeField] InputActionReference _fireInput;
 
     private void Update()
     {
@@ -25,19 +20,19 @@ public class CharacterInteraction : MonoBehaviour
 
         // On va pouvoir lancer un raycast
         Debug.DrawRay(cameraRay.origin, cameraRay.direction, Color.red);
-        if (Physics.Raycast(cameraRay, out RaycastHit hit, 2f))
+        if (_fireInput.action.WasPressedThisFrame())
         {
-            Debug.Log($"touché {hit.collider.name}!");
-
-            // Si le joueur a apuyé sur le bouton d'interaction
-            if (_interaction.action.WasPressedThisFrame())
+            if (Physics.Raycast(cameraRay, out RaycastHit hit, 100f))
             {
-                if (hit.collider.TryGetComponent(out IInteractable usable))
+                // Si le joueur a apuyé sur le bouton d'interaction
+                Debug.Log($"touché {hit.collider.name}!");
+                if (hit.collider.TryGetComponent(out Health usable))
                 {
-                    usable.Use();
+                    usable.TakeDamage(10);
                 }
             }
         }
     }
+
 
 }

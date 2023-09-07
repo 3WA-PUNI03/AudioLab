@@ -10,8 +10,10 @@ public class CharacterMove : MonoBehaviour
 {
     [SerializeField] InputActionReference _move;
     [SerializeField] InputActionReference _look;
+    [SerializeField] InputActionReference _jump;
     [SerializeField] CharacterController _controller;
     [SerializeField] float _speed;
+    [SerializeField] float _jumpPower;
 
     [SerializeField] Transform _cameraTransform;
 
@@ -19,11 +21,12 @@ public class CharacterMove : MonoBehaviour
 
     [SerializeField] CinemachineVirtualCamera _vc;
 
-    [SerializeField] UnityEvent _onWalkStart;
+    [SerializeField] UnityEvent _onWalkStart; 
     [SerializeField] UnityEvent _onWalkStop;
 
     float _vertical;
     float _horizontal;
+    float _gravity;
 
     bool _isWalking;
 
@@ -31,6 +34,13 @@ public class CharacterMove : MonoBehaviour
     {
         MoveCharacter();
 
+
+        UpdateLook();
+
+    }
+
+    private void UpdateLook()
+    {
         // Récup la direction Look
         Vector2 look = _look.action.ReadValue<Vector2>();
 
@@ -45,7 +55,6 @@ public class CharacterMove : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, _horizontal, 0);
         // On applique la rotation haut/bas uniquement à notre camera pour qu'elle tourne seulesss
         _cameraTransform.localRotation = Quaternion.Euler(_vertical, 0, 0);
-
     }
 
     private void MoveCharacter()
@@ -59,9 +68,24 @@ public class CharacterMove : MonoBehaviour
 
         // On lui applique une vitesse
         direction *= _speed;
-
         direction = _controller.transform.TransformDirection(direction);
 
+        // Jump
+        if (_controller.isGrounded)
+        {
+            _gravity = 0;
+            if(_jump.action.WasPressedThisFrame())
+            {
+                _gravity = _jumpPower;
+            }
+        }
+        else
+        {
+            _gravity += Physics.gravity.y * Time.deltaTime;
+        }
+
+
+        // Is Walking events
         if (direction.magnitude > 0.001f)
         {
             if (_isWalking == false)
@@ -81,6 +105,8 @@ public class CharacterMove : MonoBehaviour
 
 
         // On envoi au CharacterController
-        _controller.Move(direction);
+        _controller.Move(new Vector3(direction.x, _gravity, direction.z));
     }
+
+
 }
