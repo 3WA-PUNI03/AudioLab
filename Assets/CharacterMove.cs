@@ -104,8 +104,21 @@ public class CharacterMove : MonoBehaviour
         }
 
 
-        // On envoi au CharacterController
+        // Jump
+        if(_jump.action.WasPressedThisFrame())
+        {
+            _gravity = _jumpPower;
+        }
+        _gravity -= Physics.gravity.y * Time.deltaTime;
+
+        if(_controller.isGrounded)
+        {
+            _gravity = 0;
+        }  
+
         _controller.Move(new Vector3(direction.x, _gravity, direction.z));
+        // On envoi au CharacterController
+        //_controller.Move(new Vector3(direction.x, 0, direction.z));
     }
 
 
