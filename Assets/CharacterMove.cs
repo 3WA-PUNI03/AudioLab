@@ -21,7 +21,7 @@ public class CharacterMove : MonoBehaviour
 
     [SerializeField] CinemachineVirtualCamera _vc;
 
-    [SerializeField] UnityEvent _onWalkStart; 
+    [SerializeField] UnityEvent _onWalkStart;
     [SerializeField] UnityEvent _onWalkStop;
 
     float _vertical;
@@ -70,21 +70,6 @@ public class CharacterMove : MonoBehaviour
         direction *= _speed;
         direction = _controller.transform.TransformDirection(direction);
 
-        // Jump
-        if (_controller.isGrounded)
-        {
-            _gravity = 0;
-            if(_jump.action.WasPressedThisFrame())
-            {
-                _gravity = _jumpPower;
-            }
-        }
-        else
-        {
-            _gravity += Physics.gravity.y * Time.deltaTime;
-        }
-
-
         // Is Walking events
         if (direction.magnitude > 0.001f)
         {
@@ -105,18 +90,23 @@ public class CharacterMove : MonoBehaviour
 
 
         // Jump
-        if(_jump.action.WasPressedThisFrame())
+        if (_jump.action.WasPressedThisFrame())
         {
             _gravity = _jumpPower;
         }
-        _gravity -= Physics.gravity.y * Time.deltaTime;
 
-        if(_controller.isGrounded)
+        if (_controller.isGrounded)
         {
             _gravity = 0;
-        }  
+        }
+        else
+        {
+            _gravity += Physics.gravity.y;
+        }
 
-        _controller.Move(new Vector3(direction.x, _gravity, direction.z));
+        
+
+        _controller.Move(new Vector3(direction.x, _gravity, direction.z) * Time.deltaTime);
         // On envoi au CharacterController
         //_controller.Move(new Vector3(direction.x, 0, direction.z));
     }

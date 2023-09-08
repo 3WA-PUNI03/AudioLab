@@ -2129,7 +2129,6 @@ GameObject:
   - component: {fileID: 466618368}
   - component: {fileID: 466618369}
   - component: {fileID: 466618370}
-  - component: {fileID: 466618371}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2228,8 +2227,8 @@ MonoBehaviour:
   _look: {fileID: -2625149730468289164, guid: 12a3ce688ae784a498fc6c7ca6a9b9f6, type: 3}
   _jump: {fileID: 1991988152373150505, guid: 12a3ce688ae784a498fc6c7ca6a9b9f6, type: 3}
   _controller: {fileID: 466618366}
-  _speed: 0.1
-  _jumpPower: 0.3
+  _speed: 10
+  _jumpPower: 20
   _cameraTransform: {fileID: 1174232551}
   _cameraSensibility: {x: 0.2, y: 0.2}
   _vc: {fileID: 1174232552}
@@ -2390,33 +2389,6 @@ MonoBehaviour:
   _cam: {fileID: 330585545}
   _fireInput: {fileID: 7772344075396790507, guid: 12a3ce688ae784a498fc6c7ca6a9b9f6,
     type: 3}
---- !u!54 &466618371
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 466618363}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1001 &489770720
 PrefabInstance:
   m_ObjectHideFlags: 0
