@@ -28,6 +28,7 @@ public class CharacterInteraction : MonoBehaviour
         if (Physics.Raycast(cameraRay, out RaycastHit hit, 2f))
         {
             Debug.Log($"touché {hit.collider.name}!");
+            hit.collider.GetComponent<MeshRenderer>()?.sharedMaterial.SetFloat("_OutlineEnabled", 1);
 
             // Si le joueur a apuyé sur le bouton d'interaction
             if (_interaction.action.WasPressedThisFrame())
